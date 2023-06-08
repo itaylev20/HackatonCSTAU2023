@@ -194,3 +194,24 @@ function createNotifcation(title,message,fill_color){
     notifcations_div.prepend(toast);
 
 }
+
+function startNavigation() {
+    if (stops_lan === null) {
+        createNotifcation("start navigation error",`stops are not defined`,'red');
+        return
+    }
+
+    var destination = stops_lan[stops_lan.length - 1];
+
+    var stops = stops_lan.slice(0, stops_lan.length - 1);
+
+    // Encode the destination and stops addresses for the URL
+    var encodedDestination = encodeURIComponent(destination);
+    var encodedStops = stops.map(function(stop) {
+    return encodeURIComponent(stop);
+    }).join('|');
+
+    // Open the Google Maps URL for navigation with stops
+    window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodedDestination + '&waypoints=' + encodedStops);
+}
+
