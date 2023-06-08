@@ -30,9 +30,9 @@ function showBusPath(select){
         var stop_information  = JSON.parse(response);
         var stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
         if (stops_lan.length>25){
-            createNotifcation("לא ניתן להציג מסלול",`יש מעל 25 תחנות, לצערנו גוגל לא תומך במעל 25 עצירות, לכן המסלול ${route_long_name} לא מוצג, תודה על ההבנה`,'red');
-            return;
-
+            // createNotifcation("לא ניתן להציג מסלול",`יש מעל 25 תחנות, לצערנו גוגל לא תומך במעל 25 עצירות, לכן המסלול ${route_long_name} לא מוצג, תודה על ההבנה`,'red');
+            // return;
+            stops_lan.splice(0,25)
         }
         createNotifcation("מחשב מסלול",`מחשב מסלול ${route_long_name}`,'green');
         calculateAndDisplayRoute(stops_lan);
