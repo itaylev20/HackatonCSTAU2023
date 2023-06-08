@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return render_template(f"main.html")
+    bus_lines= [i for i in range(190)]
+    return render_template(f"main.html",bus_lines=bus_lines)
 
 
 

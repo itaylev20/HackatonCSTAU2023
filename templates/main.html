@@ -89,7 +89,13 @@ $(document).ready(function() {
 {% block content %}
 
 <div id="container">
-    <h5>best team</h5>
+    <h5>בחר קו ליצירת המסלול</h5>
+    <select class="selectpicker " data-live-search="true" title="בחר קו">
+        {% for bus_line in bus_lines %}
+  <option value="{{ bus_line}}">קו {{ bus_line}}</option>
+        {% endfor %}
+</select>
+
 </div>
 
 {% endblock %}
