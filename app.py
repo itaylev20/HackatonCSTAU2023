@@ -11,8 +11,7 @@ STOP_TIMES_FILE_PATH = "data/stop_times.txt"
 
 @app.route('/')
 def main():
-    bus_lines= [i for i in range(190)]
-    return render_template(f"main.html",bus_lines=bus_lines)
+    return render_template(f"main.html")
 
 
 @app.route('/get_routes')
