@@ -69,7 +69,6 @@ function showBusPath(select){
 }
 function FillRoutes(selector) {
     $.get(`/get_routes`, function (response) {
-        console.log(response)
         routes  = JSON.parse(response);
         AddSelectOptions(selector,routes)
     }).
@@ -87,7 +86,6 @@ function AddSelectOptions(select_selector,routes){
         selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}" data-long-name="${route.route_long_name}" data-bus-line-number="${route.route_short_name}">${route.route_short_name} - ${route.route_long_name}</option>`)
     }
     selects.selectpicker('refresh');
-
 }
 
 let map, infoWindow;
@@ -223,7 +221,7 @@ function createNotifcation(title,message,fill_color){
 function startNavigation() {
     if (stops_lan == null) {
         console.log('stops_len is null');
-        createNotifcation("start navigation error",`stops are not defined`,'red');
+        createNotifcation("שגיאה בהתחלה הניווט",`נא לבחור קודם קו לפני התחלת ההניוט!`,'red');
         return
     }
 
