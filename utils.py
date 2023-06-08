@@ -4,7 +4,13 @@ trips_df = pd.read_csv("data/trips.txt")
 stop_times_df = pd.read_csv("data/stop_times.txt")
 stops_df = pd.read_csv("data/stops.txt")
 
-def stops_by_route_id(route_id):
+
+def stops_by_route_id(route_id: int):
+    """
+
+    :param route_id: int
+    :return: list of tuples in the form (stop_desc: str, stop_lat: int, stop_lon: int
+    """
     #route_line = routes_df.loc[(routes_df['route_short_name'] == line_number) & (routes_df['route_type'] == 3)]
     #route_id = route_line.iloc[0]['route_id']
     trip_id = trips_df.loc[trips_df['route_id'] == route_id].iloc[0]['trip_id']
@@ -21,7 +27,8 @@ def stops_by_route_id(route_id):
     res = []
     for stop_id in stops_lst:
         stop_info = stops_df.loc[stops_df['stop_id'] == stop_id]
-        res.append((stop_info['stop_desc'].values.tolist()[0], stop_info['stop_lat'].values.tolist()[0], stop_info['stop_lon'].values.tolist()[0]))
+        res.append((stop_info['stop_desc'].values.tolist()[0], stop_info['stop_lat'].values.tolist()[0],
+                    stop_info['stop_lon'].values.tolist()[0]))
     return res
 
 
@@ -30,5 +37,5 @@ if __name__ == "__main__":
     trips_df = pd.read_csv("data/trips.txt")
     stop_times_df = pd.read_csv("data/stop_times.txt")
     stops_df = pd.read_csv("data/stops.txt")
-    #stops = stops_for_line('13')
-    #print(stops)
+    stops = stops_by_route_id(8)
+    print(stops)
