@@ -20,80 +20,17 @@
 }
 </style>
     <script>
-      // Function to draw the gauge
-  function drawGauge() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(gaugeLength, 0);
-    ctx.lineWidth = 10;
-    ctx.strokeStyle = "red";
-    ctx.stroke();
-  }
-
-  // Function to handle gauge dragging
-  function handleDrag(e) {
-    if (!isDragging) return;
-    var mouseX = e.clientX - startX;
-    var mouseY = e.clientY - startY;
-    var containerOffset = $("#container").offset();
-    var containerX = containerOffset.left;
-    var containerY = containerOffset.top;
-    var newPositionX = mouseX - containerX;
-    var newPositionY = mouseY - containerY;
-    $("#gauge").css({
-      left: newPositionX,
-      top: newPositionY
-    });
-  }
-  // Function to update gauge length
-  function updateGaugeLength(newLength) {
-    gaugeLength = newLength;
-    drawGauge();
-  }
-$(document).ready(function() {
-  canvas = document.getElementById("gauge");
-  ctx = canvas.getContext("2d");
-  gaugeLength = 100; // Initial gauge length
-  isDragging = false;
-  startX = null;
-  startY=null;
-
-
-  // Event listeners for mouse events
-  $("#gauge").on("mousedown", function(e) {
-    isDragging = true;
-    startX = e.clientX - $("#gauge").position().left;
-    startY = e.clientY - $("#gauge").position().top;
-  });
-
-  $(document).on("mousemove", handleDrag);
-
-  $(document).on("mouseup", function() {
-    isDragging = false;
-  });
-
-    $("#gauge-radius").on("change", function() {
-      // Update the global variable with the new value
-        var gauge_radius = $(this).val();
-        console.log(`new gauge radius ${gauge_radius}`);
-        updateGaugeLength(gauge_radius);
+    $(document).ready(function () {
+        FillRoutes(".bus-routes");
     });
 
-
-  // Example usage: update gauge length to 200
-  updateGaugeLength(200);
-});
     </script>
 {% endblock %}
 {% block content %}
 
 <div id="container">
     <h5>בחר קו ליצירת המסלול</h5>
-    <select class="selectpicker text-right" data-live-search="true" title="בחר קו">
-        {% for bus_line in bus_lines %}
-  <option value="{{ bus_line}}">קו {{ bus_line}}</option>
-        {% endfor %}
+    <select class="selectpicker text-right bus-routes" data-live-search="true" title="בחר קו">
 
 </select>
 
