@@ -12,6 +12,18 @@ $(document).ready(function () {
         console.log('hi');
         ShowInputValidityMessage(this, "");
     });
+
+    var myModal = document.getElementById('contact_modal')
+var bus_line_number_incident = document.getElementById('bus_line_number_incident')
+
+myModal.addEventListener('shown.bs.modal', function () {
+    if(bus_line_number != null)
+        bus_line_number_incident.innerText=bus_line_number_incident
+    else
+        bus_line_number_incident.innerText="לא נמצא קו"
+  myInput.focus()
+})
+
 });
 
 function ShowInputValidityMessage(input, message) {
