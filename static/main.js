@@ -27,8 +27,8 @@ function showBusPath(select){
     console.log(`selected route id ${route_id}, origin ${origin} dest ${destination}`);
         $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
         var stop_information  = JSON.parse(response);
-        var stops_lan = stop_information.filter(word => word.length > 6)
-        calculateAndDisplayRoute(stops);
+        var stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
+        calculateAndDisplayRoute(stops_lan);
     }).
         fail(function () {
             alert('failed to get bus stops');
