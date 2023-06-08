@@ -1,3 +1,46 @@
+<script>
+  function getPassengerCount() {
+    // Generate a random number between 0 and 52
+    var randomPassengerCount = Math.floor(Math.random() * 53);
+
+    // Display the random passenger count in the input field
+    document.getElementById("passenger_count").value = randomPassengerCount;
+
+    // Update the temperature scale
+    updateTemperatureScale(randomPassengerCount);
+  }
+
+  function setCapacityLimit(capacity) {
+    document.getElementById("capacity_limit").value = capacity;
+
+    // Update the temperature scale
+    updateTemperatureScale(document.getElementById("passenger_count").value);
+  }
+
+  function updateTemperatureScale(passengerCount) {
+    var capacityLimit = parseInt(document.getElementById("capacity_limit").value);
+    var temperatureScale = document.getElementById("temperature_scale");
+    var indicator = document.getElementById("temperature_indicator");
+
+    // Calculate the ratio of passenger count to capacity limit
+    var ratio = passengerCount / capacityLimit;
+
+    // Calculate the position based on the ratio
+    var position = ratio * 100;
+
+    // Update the temperature scale indicator position
+    indicator.style.left = position + "%";
+
+    // Calculate the gradient colors based on the position
+    var green = "rgb(0, 255, 0)";
+    var red = "rgb(255, 0, 0)";
+    var color = "linear-gradient(to right, " + green + " 0%, " + red + " 100%)";
+
+    // Update the background color of the temperature scale
+    temperatureScale.style.background = color;
+  }
+</script>
+
 <div class="modal fade" id="passengers_modal" tabindex="-1" aria-labelledby="passengers_modal_label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -12,15 +55,50 @@
         <form>
           <div class="mb-3">
             <label for="passenger_count" class="form-label">מספר הנוסעים בזמן אמת:</label>
-            <input class="form-control" type="text" id="passenger_count" readonly>
             <button class="btn btn-primary" type="button" onclick="getPassengerCount()">מספר הנוסעים העדכני על הקו</button>
+            <input class="form-control" type="text" id="passenger_count" readonly>
           </div>
           <div class="mb-3">
             <label for="capacity_limit" class="form-label">הגבלת קיבולת האוטובוס:</label>
-            <input class="form-control" type="number" id="capacity_limit" min="0" max="70" readonly>
+            <div class="btn-group" role="group">
+              <button class="btn btn-secondary" type="button" onclick="setCapacityLimit(30)">30 (אוטובוס מיני)</button>
+              <button class="btn btn-secondary" type="button" onclick="setCapacityLimit(52)">52 (אוטובוס רגיל)</button>
+              <button class="btn btn-secondary" type="button" onclick="setCapacityLimit(87)">87 (אוטובוס ארוך)</button>
+            </div>
+            <input class="form-control" type="text" id="capacity_limit" min="0" max="70" readonly>
           </div>
+
           <div class="mb-3">
-            <label for="passenger_question" class="form-label">שאלות ומשוב:</label>
-            <textarea class="form-control" id="passenger_question" rows="3"></textarea>
+            <label class="form-label">טמפרטורה:</label>
+            <div id="temperature_scale" class="temperature-scale">
+              <div id="temperature_indicator"></div>
+            </div>
           </div>
-        </
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .temperature-scale {
+    height: 20px;
+    width: 100%;
+    background-color: #eee;
+    border-radius: 4px;
+    margin-top: 5px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #temperature_indicator {
+    height: 100%;
+    width: 5px;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    transition: left 0.3s, background-color 0.3s;
+  }
+</style>

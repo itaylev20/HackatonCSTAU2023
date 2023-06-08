@@ -32,7 +32,7 @@ myModal.addEventListener('shown.bs.modal', function () {
     if(bus_line_number != null)
         route_long_name_incident.innerText=route_long_name
     else
-        route_long_name_incident.innerText=""
+        route_long_name_incident.innerText="לא נמצא מסלול"
 })
 
 });
