@@ -60,14 +60,15 @@ function showBusPath(select){
 }
 function FillRoutes(selector) {
     $.get(`/get_routes`, function (response) {
+        console.log(response)
         routes  = JSON.parse(response);
-        FillSelectValues(selector,routes)
+        AddSelectOptions(selector,routes)
     }).
         fail(function () {
             alert('failed to get routes');
         });
 }
-function FillSelectValues(select_selector,routes){
+function AddSelectOptions(select_selector,routes){
     var selector = 'select'+select_selector;
     var selects = $(selector);
     selects.empty();
