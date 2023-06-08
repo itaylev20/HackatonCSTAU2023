@@ -113,7 +113,7 @@ async function initMap() {
   infoWindow = new google.maps.InfoWindow();
 
   const locationButton = document.createElement("button");
-  locationButton.textContent = "Pan to Current Location";
+  locationButton.textContent = "התמקד לנקודה הנוכחית";
   locationButton.classList.add("custom-map-control-button","btn","btn-primary");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener("click", () => {
