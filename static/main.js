@@ -126,7 +126,7 @@ function calculateAndDisplayRoute(stops) {
         const routeSegment = i + 1;
 
         summaryPanel.innerHTML +=
-          "<b>מסלול : " + routeSegment + "</b><br>";
+          "<b>מקטע : " + routeSegment + "</b><br>";
         summaryPanel.innerHTML += route.legs[i].start_address + " אל ";
         summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
         summaryPanel.innerHTML += route.legs[i].distance.text + "<br><br>";
