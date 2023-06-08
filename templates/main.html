@@ -21,10 +21,10 @@
     </script>
 {% endblock %}
 {% block content %}
-    <div class="w-50 mx-auto">
-    <h5>בחר קו ליצירת המסלול</h5>
-        <select class="form-control selectpicker text-right bus-routes" data-live-search="true" title="בחר קו" onchange="showBusPath(this)"></select>
-    </div>
+<div class="w-50 mx-auto">
+  <h5 class="special-heading">בחר קו ליצירת המסלול</h5>
+  <select class="form-control selectpicker text-right bus-routes" data-live-search="true" title="בחר קו" onchange="showBusPath(this)"></select>
+</div>
 
         <div id="google_map" class="mt-4"></div>
     <!-- prettier-ignore -->
@@ -36,7 +36,6 @@
     </div>
 
     <div class="col-3">
-            <button class="btn btn-primary" onclick="startNavigation()">התחיל ניווט</button>
 
     </div>
     </div>

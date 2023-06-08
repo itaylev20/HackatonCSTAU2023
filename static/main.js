@@ -221,7 +221,7 @@ function createNotifcation(title,message,fill_color){
 function startNavigation() {
     if (stops_lan == null) {
         console.log('stops_len is null');
-        createNotifcation("שגיאה בהתחלה הניווט",`נא לבחור קודם קו לפני התחלת ההניוט!`,'red');
+        createNotifcation("שגיאה בהתחלה הניווט",`נא לבחור קו טרם התחלת הניווט!`,'red');
         return
     }
 
