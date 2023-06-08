@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+#container {
+  position: relative;
+  display: inline-block;
+}
+
+#container img {
+  display: block;
+  max-width: 100%;
+}
+
+#gauge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: move;
+}
+</style>
+    <script>
+      // Function to draw the gauge
+  function drawGauge() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(gaugeLength, 0);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+  }
+
+  // Function to handle gauge dragging
+  function handleDrag(e) {
+    if (!isDragging) return;
+    var mouseX = e.clientX - startX;
+    var mouseY = e.clientY - startY;
+    var containerOffset = $("#container").offset();
+    var containerX = containerOffset.left;
+    var containerY = containerOffset.top;
+    var newPositionX = mouseX - containerX;
+    var newPositionY = mouseY - containerY;
+    $("#gauge").css({
+      left: newPositionX,
+      top: newPositionY
+    });
+  }
+  // Function to update gauge length
+  function updateGaugeLength(newLength) {
+    gaugeLength = newLength;
+    drawGauge();
+  }
+$(document).ready(function() {
+  canvas = document.getElementById("gauge");
+  ctx = canvas.getContext("2d");
+  gaugeLength = 100; // Initial gauge length
+  isDragging = false;
+  startX = null;
+  startY=null;
+
+
+  // Event listeners for mouse events
+  $("#gauge").on("mousedown", function(e) {
+    isDragging = true;
+    startX = e.clientX - $("#gauge").position().left;
+    startY = e.clientY - $("#gauge").position().top;
+  });
+
+  $(document).on("mousemove", handleDrag);
+
+  $(document).on("mouseup", function() {
+    isDragging = false;
+  });
+
+    $("#gauge-radius").on("change", function() {
+      // Update the global variable with the new value
+        var gauge_radius = $(this).val();
+        console.log(`new gauge radius ${gauge_radius}`);
+        updateGaugeLength(gauge_radius);
+    });
+
+
+  // Example usage: update gauge length to 200
+  updateGaugeLength(200);
+});
+    </script>
+{% endblock %}
+{% block content %}
+
+<div id="container">
+  <img src=https://res.cloudinary.com/rsc/image/upload/b_rgb:FFFFFF,c_pad,dpr_1.0,f_auto,h_758,q_auto,w_1350/c_pad,h_758,w_1350/Y2229085-01?pgw=1&pgwact=1" alt="Your Image">
+  <canvas id="gauge"></canvas>
+</div>
+<label for="customRange1" class="form-label"   >Select range of image</label>
+    <div>
+        <span class="float-left mr-2">20</span><input type="range" class="form-range"  style="width: 90%" id="gauge-radius" min="20" max="500"> <span class="float-right ml-2">500</span>
+    </div>
+{% endblock %}
