@@ -34,7 +34,7 @@ function FillSelectValues(select_selector,routes){
     var selects = $(selector);
     selects.empty();
     for(const route of routes){
-        selects.append(`<option value='${route.route_id}'>${route.route_short_name}</option>`)
+        selects.append(`<option value='${route.route_id}'>${route.route_short_name} - ${route.route_long_name}</option>`)
     }
     selects.selectpicker('refresh');
 
