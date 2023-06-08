@@ -1,4 +1,5 @@
 stops_lan = null;
+bus_line_number = null;
 $(document).ready(function () {
     $("#AddInventoryEmployeesV2Modal input").on("input", function () {
         console.log('hi');
