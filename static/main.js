@@ -195,6 +195,11 @@ function createNotifcation(title,message,fill_color){
 }
 
 function startNavigation() {
+    if (stops_lan === null) {
+        createNotifcation("start navigation error",`stops are not defined`,'red');
+        return
+    }
+
     var destination = stops_lan[stops_lan.length - 1];
 
     var stops = stops_lan.slice(0, stops_lan.length - 1);
