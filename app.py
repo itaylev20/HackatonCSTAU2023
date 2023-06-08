@@ -4,6 +4,9 @@ import json
 app = Flask(__name__)
 
 ROUTES_FILE_PATH = "data/routes.txt"
+STOPS_FILE_PATH = "data/stops.txt"
+TRIPS_FILE_PATH = "data/trips.txt"
+STOP_TIMES_FILE_PATH = "data/stop_times.txt"
 
 @app.route('/')
 def main():
@@ -13,9 +16,28 @@ def main():
 
 @app.route('/get_routes')
 def get_routes():
-    with open(ROUTES_FILE_PATH, "r", encoding='utf-8') as file:
+    return json.dumps(get_csv_data(ROUTES_FILE_PATH))
+
+@app.route('/get_trips')
+def get_trips():
+    return json.dumps(get_csv_data(TRIPS_FILE_PATH))
+@app.route('/get_stops')
+def get_stops():
+    return json.dumps(get_csv_data(STOPS_FILE_PATH))
+
+@app.route('/get_stops_times')
+def get_stops_times():
+    return json.dumps(get_csv_data(STOP_TIMES_FILE_PATH))
+@app.route('/get_stops_by_route_id/<route_id>')
+def get_stops_by_route_id(route_id):
+    stops = [["ראשון",32.183985,34.917554],["שני",31.870034,34.819541],["שלישי",31.984553,34.782828]]
+    return json.dumps(stops)
+
+def get_csv_data(filename):
+    with open(filename, "r", encoding='utf-8') as file:
         csv_reader = csv.reader(file,)
         headers = next(csv_reader)
+        headers[0] = headers[0][1:]
         # Create a list of dictionaries
         routes = []
         for row in csv_reader:
@@ -23,5 +45,5 @@ def get_routes():
             routes.append(route)
 
     # Print the list of dictionaries
-    return json.dumps(routes)
+    return routes
 
