@@ -27,7 +27,7 @@ function showBusPath(select){
     console.log(`selected route id ${route_id}, origin ${origin} dest ${destination}`);
         $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
         var stop_information  = JSON.parse(response);
-        var stops_lan = stop_information.filter("-")
+        var stops_lan = stop_information.filter(word => word.length > 6)
         calculateAndDisplayRoute(stops);
     }).
         fail(function () {
