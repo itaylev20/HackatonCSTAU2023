@@ -1,3 +1,4 @@
+stops_lan = null;
 $(document).ready(function () {
     $("#AddInventoryEmployeesV2Modal input").on("input", function () {
         console.log('hi');
