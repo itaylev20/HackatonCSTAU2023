@@ -16,7 +16,6 @@ def get_routes():
     with open(ROUTES_FILE_PATH, "r", encoding='utf-8') as file:
         csv_reader = csv.reader(file,)
         headers = next(csv_reader)
-        headers[0]="route_id"
         # Create a list of dictionaries
         routes = []
         for row in csv_reader:
