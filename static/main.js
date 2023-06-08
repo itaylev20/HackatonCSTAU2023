@@ -22,6 +22,7 @@ function ShowInputValidityMessage(input, message) {
 function showBusPath(select){
     var option = $(select).find('option:selected');
     var route_id = option.val();
+    bus_line_number = option.data('bus-line-number');
     var route_long_name = option.data('long-name');
     var origin = option.data('origin')
     var destination = option.data('destination')
@@ -59,7 +60,7 @@ function FillSelectValues(select_selector,routes){
     for(const route of routes){
         var origin =  route.route_long_name.split('<->')[0];
         var destination = route.route_long_name.split('<->')[1];
-        selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}" data-long-name="${route.route_long_name}">${route.route_short_name} - ${route.route_long_name}</option>`)
+        selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}" data-long-name="${route.route_long_name}" data-bus-line-number="${route.route_short_name}">${route.route_short_name} - ${route.route_long_name}</option>`)
     }
     selects.selectpicker('refresh');
 
