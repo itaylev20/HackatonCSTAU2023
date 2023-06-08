@@ -1,5 +1,4 @@
-﻿route_id,agency_id,route_short_name,
-route_long_name,route_desc,route_type,route_color
+﻿route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_color
 1,25,1,ת. רכבת יבנה מערב-יבנה<->ת. רכבת יבנה מזרח-יבנה-1#,67001-1-#,3,
 2,25,1,ת. רכבת יבנה מזרח-יבנה<->ת. רכבת יבנה מערב-יבנה-2#,67001-2-#,3,
 3,25,2,ת. רכבת יבנה מערב-יבנה<->ת. רכבת יבנה מזרח-יבנה-1#,56002-1-#,3,

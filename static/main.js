@@ -15,15 +15,24 @@ $(document).ready(function () {
         ShowInputValidityMessage(this, "");
     });
 
-    var myModal = document.getElementById('contact_modal')
+var myModal = document.getElementById('contact_modal')
 var bus_line_number_incident = document.getElementById('bus_line_number_incident')
 
 myModal.addEventListener('shown.bs.modal', function () {
     if(bus_line_number != null)
-        bus_line_number_incident.innerText=bus_line_number_incident
+        bus_line_number_incident.innerText=bus_line_number
     else
         bus_line_number_incident.innerText="לא נמצא קו"
-  myInput.focus()
+})
+
+    var myModal = document.getElementById('contact_modal')
+var route_long_name_incident = document.getElementById('route_long_name_incident')
+
+myModal.addEventListener('shown.bs.modal', function () {
+    if(bus_line_number != null)
+        route_long_name_incident.innerText=route_long_name
+    else
+        route_long_name_incident.innerText=""
 })
 
 });
@@ -60,14 +69,15 @@ function showBusPath(select){
 }
 function FillRoutes(selector) {
     $.get(`/get_routes`, function (response) {
+        console.log(response)
         routes  = JSON.parse(response);
-        FillSelectValues(selector,routes)
+        AddSelectOptions(selector,routes)
     }).
         fail(function () {
             alert('failed to get routes');
         });
 }
-function FillSelectValues(select_selector,routes){
+function AddSelectOptions(select_selector,routes){
     var selector = 'select'+select_selector;
     var selects = $(selector);
     selects.empty();
