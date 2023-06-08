@@ -1,3 +1,4 @@
+stops_lan = null;
 $(document).ready(function () {
     $("#AddInventoryEmployeesV2Modal input").on("input", function () {
         console.log('hi');
@@ -28,7 +29,7 @@ function showBusPath(select){
     console.log(`selected route id ${route_id}, origin ${origin} dest ${destination}`);
         $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
         var stop_information  = JSON.parse(response);
-        var stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
+        stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
         if (stops_lan.length>25){
             // createNotifcation("לא ניתן להציג מסלול",`יש מעל 25 תחנות, לצערנו גוגל לא תומך במעל 25 עצירות, לכן המסלול ${route_long_name} לא מוצג, תודה על ההבנה`,'red');
             // return;
@@ -64,19 +65,14 @@ function FillSelectValues(select_selector,routes){
 
 }
 
-
+let map, infoWindow;
 
 async function initMap() {
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer();
-  // The location of Uluru
   const position = { lat: 32.11321, lng: 34.80502 };
-  // Request needed libraries.
-  //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-  // The map, centered at Uluru
 
   map = new Map(document.getElementById("google_map"), {
     zoom: 15,
@@ -84,14 +80,61 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
   directionsRenderer.setMap(map);
+  infoWindow = new google.maps.InfoWindow();
 
-  // The marker, positioned at Uluru
   const marker = new AdvancedMarkerElement({
     map: map,
     position: position,
     title: "Uluru",
   });
+  infoWindow = new google.maps.InfoWindow();
+
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Pan to Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          // Store the user's current location
+          currentPlace = pos;
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Location found.");
+          infoWindow.open(map);
+          map.setCenter(pos);
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
+        }
+      );
+    } else {
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
+  });
+
 }
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow.open(map);
+}
+
+window.initMap = initMap;
+
+
 function calculateAndDisplayRoute(stops) {
 
   const waypts = [];
@@ -126,7 +169,7 @@ function calculateAndDisplayRoute(stops) {
         const routeSegment = i + 1;
 
         summaryPanel.innerHTML +=
-          "<b>מסלול : " + routeSegment + "</b><br>";
+          "<b>מקטע : " + routeSegment + "</b><br>";
         summaryPanel.innerHTML += route.legs[i].start_address + " אל ";
         summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
         summaryPanel.innerHTML += route.legs[i].distance.text + "<br><br>";
@@ -151,3 +194,25 @@ function createNotifcation(title,message,fill_color){
     notifcations_div.prepend(toast);
 
 }
+
+function startNavigation() {
+    if (stops_lan == null) {
+        console.log('stops_len is null');
+        createNotifcation("start navigation error",`stops are not defined`,'red');
+        return
+    }
+
+    var destination = stops_lan[stops_lan.length - 1];
+
+    var stops = stops_lan.slice(0, stops_lan.length - 1);
+
+    // Encode the destination and stops addresses for the URL
+    var encodedDestination = encodeURIComponent(destination);
+    var encodedStops = stops.map(function(stop) {
+    return encodeURIComponent(stop);
+    }).join('|');
+
+    // Open the Google Maps URL for navigation with stops
+    window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodedDestination + '&waypoints=' + encodedStops);
+}
+
