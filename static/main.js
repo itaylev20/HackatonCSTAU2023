@@ -216,3 +216,17 @@ function startNavigation() {
     window.open('https://www.google.com/maps/dir/?api=1&destination=' + encodedDestination + '&waypoints=' + encodedStops);
 }
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("איתור מיקום GPS אינו נתמך בדפדפן שלך.");
+  }
+}
+
+function showPosition(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  document.getElementById("incident_location").value = "Latitude: " + latitude + ", Longitude: " + longitude;
+}
+

@@ -1,3 +1,9 @@
+<style>
+  #incident_location {
+    list-style-type: none;
+  }
+</style>
+
 <div class="modal fade" id="contact_modal" tabindex="-1" aria-labelledby="incident_reporting_modal_label" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -8,16 +14,20 @@
       <div class="modal-body">
         <form>
           <div class="mb-3">
-            <label for="incident_details" class="form-label">פרטי התאונה</label>
+            <label for="incident_details" class="form-label">מספר הקו: </label>
+            <textarea class="form-control" id="incident_details" rows="1"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="incident_location" class="form-label">מיקום התאונה: </label>
+            <button class="btn btn-primary" type="button" onclick="getLocation()">איתור GPS</button>
+          </div>
+          <div class="mb-3">
+            <label for="incident_details" class="form-label">פרטי התאונה: </label>
             <textarea class="form-control" id="incident_details" rows="3"></textarea>
           </div>
           <div class="mb-3">
-            <label for="incident_photos" class="form-label">תמונות התאונה</label>
+            <label for="incident_photos" class="form-label">תמונות התאונה: </label>
             <input class="form-control" type="file" id="incident_photos" multiple>
-          </div>
-          <div class="mb-3">
-            <label for="incident_location" class="form-label">מיקום התאונה</label>
-            <input class="form-control" type="text" id="incident_location">
           </div>
         </form>
       </div>

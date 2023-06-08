@@ -6,15 +6,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>ניהול העומס של הנוסעים, בהבטחת עלייתם בזמן ובטיפול בשאלות של הנוסעים. אפליקציה יכולה לספק מידע על מנוע הנוסעים בזמן אמת, לעזור לנהגים לאכוף הגבלות קיבולת ולספק פלטפורמה לנוסעים לשאול שאלות או לתת משוב.</p>
-        <p>למען הנוחות והבטיחות של כולם, אנא שמרו על ההנחיות של הנהגים והסמלים המצוינים בתוך האוטובוס.</p>
+        <p>ניהול העומס של הנוסעים, בהבטחת עלייתם בזמן ובטיפול בשאלות של הנוסעים. מידע על מנוע הנוסעים בזמן אמת, על מנת לאכוף הגבלות קיבולת.</p>
 
         <!-- Passenger management form -->
         <form>
           <div class="mb-3">
             <label for="passenger_count" class="form-label">מספר הנוסעים בזמן אמת:</label>
             <input class="form-control" type="text" id="passenger_count" readonly>
-            <button class="btn btn-primary" type="button" onclick="getPassengerCount()">שאילתת Moovit</button>
+            <button class="btn btn-primary" type="button" onclick="getPassengerCount()">מספר הנוסעים העדכני על הקו</button>
           </div>
           <div class="mb-3">
             <label for="capacity_limit" class="form-label">הגבלת קיבולת האוטובוס:</label>
