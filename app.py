@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect,url_for
 import csv
 import json
+from utils import stops_by_route_id
 app = Flask(__name__)
 
 ROUTES_FILE_PATH = "data/routes.txt"
@@ -30,7 +31,7 @@ def get_stops_times():
     return json.dumps(get_csv_data(STOP_TIMES_FILE_PATH))
 @app.route('/get_stops_by_route_id/<route_id>')
 def get_stops_by_route_id(route_id):
-    stops = [["ראשון",32.183985,34.917554],["שני",31.870034,34.819541],["שלישי",31.984553,34.782828]]
+    stops = stops_by_route_id(int(route_id))
     return json.dumps(stops)
 
 def get_csv_data(filename):
