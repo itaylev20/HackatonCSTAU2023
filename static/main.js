@@ -1,5 +1,6 @@
 stops_lan = null;
 bus_line_number = null;
+route_long_name = null;
 $(document).ready(function () {
     $("#AddInventoryEmployeesV2Modal input").on("input", function () {
         console.log('hi');
@@ -24,7 +25,7 @@ function showBusPath(select){
     var option = $(select).find('option:selected');
     var route_id = option.val();
     bus_line_number = option.data('bus-line-number');
-    var route_long_name = option.data('long-name');
+    route_long_name = option.data('long-name');
     var origin = option.data('origin')
     var destination = option.data('destination')
     var stops = [origin,destination];
