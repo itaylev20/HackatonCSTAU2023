@@ -1,3 +1,10 @@
 .selectpicker, .filter-option-inner-inner{
     text-align: right!important;
 }
+
+
+html, body{
+    width:100%;
+    height:100%;
+
+}
