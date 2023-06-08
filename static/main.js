@@ -28,7 +28,7 @@ function showBusPath(select){
     console.log(`selected route id ${route_id}, origin ${origin} dest ${destination}`);
         $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
         var stop_information  = JSON.parse(response);
-        var stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
+        stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
         if (stops_lan.length>25){
             // createNotifcation("לא ניתן להציג מסלול",`יש מעל 25 תחנות, לצערנו גוגל לא תומך במעל 25 עצירות, לכן המסלול ${route_long_name} לא מוצג, תודה על ההבנה`,'red');
             // return;
