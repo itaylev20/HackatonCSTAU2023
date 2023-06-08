@@ -31,7 +31,7 @@ def get_stops_times():
     return json.dumps(get_csv_data(STOP_TIMES_FILE_PATH))
 @app.route('/get_stops_by_route_id/<route_id>')
 def get_stops_by_route_id(route_id):
-    stops = stops_by_route_id(route_id)
+    stops = stops_by_route_id(int(route_id))
     return json.dumps(stops)
 
 def get_csv_data(filename):

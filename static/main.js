@@ -21,6 +21,7 @@ function ShowInputValidityMessage(input, message) {
 function showBusPath(select){
     var option = $(select).find('option:selected');
     var route_id = option.val();
+    var route_long_name = option.data('long-name');
     var origin = option.data('origin')
     var destination = option.data('destination')
     var stops = [origin,destination];
@@ -28,6 +29,12 @@ function showBusPath(select){
         $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
         var stop_information  = JSON.parse(response);
         var stops_lan =  stop_information.map(item => `${item[1]},${item[2]}`);
+        if (stops_lan.length>25){
+            createNotifcation("לא ניתן להציג מסלול",`יש מעל 25 תחנות, לצערנו גוגל לא תומך במעל 25 עצירות, לכן המסלול ${route_long_name} לא מוצג, תודה על ההבנה`,'red');
+            return;
+
+        }
+        createNotifcation("מחשב מסלול",`מחשב מסלול ${route_long_name}`,'green');
         calculateAndDisplayRoute(stops_lan);
     }).
         fail(function () {
@@ -51,7 +58,7 @@ function FillSelectValues(select_selector,routes){
     for(const route of routes){
         var origin =  route.route_long_name.split('<->')[0];
         var destination = route.route_long_name.split('<->')[1];
-        selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}">${route.route_short_name} - ${route.route_long_name}</option>`)
+        selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}" data-long-name="${route.route_long_name}">${route.route_short_name} - ${route.route_long_name}</option>`)
     }
     selects.selectpicker('refresh');
 
@@ -131,4 +138,16 @@ function calculateAndDisplayRoute(stops) {
             throw e;
         }
     );
+}
+
+function createNotifcation(title,message,fill_color){
+    var notifcations_div = $("#notifcations-div");
+    var toast = $("#notification-toast").clone();
+    toast.find(".toast-title").html(title);
+    toast.find(".toast-body").html(`<div class="d-flex align-items-center pr-3 pl-3 col"><h5>${message}</h5></div>`);
+    toast.find(".square rect").attr('fill',fill_color);
+    toast.removeClass("d-none");
+    toast.toast('show');
+    notifcations_div.prepend(toast);
+
 }
