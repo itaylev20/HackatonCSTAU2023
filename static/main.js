@@ -18,15 +18,30 @@ function ShowInputValidityMessage(input, message) {
     input.setCustomValidity(message);
     input.reportValidity();
 }
+function showBusPath(select){
+    var option = $(select).find('option:selected');
+    var route_id = option.val();
+    var origin = option.data('origin')
+    var destination = option.data('destination')
+    var stops = [origin,destination];
+    console.log(`selected route id ${route_id}, origin ${origin} dest ${destination}`);
+        $.get(`/get_stops_by_route_id/${route_id}`, function (response) {
+        var stop_information  = JSON.parse(response);
+        var stops_lan = stop_information.filter("-")
+        calculateAndDisplayRoute(stops);
+    }).
+        fail(function () {
+            alert('failed to get bus stops');
+        });
 
+}
 function FillRoutes(selector) {
     $.get(`/get_routes`, function (response) {
-        console.log(response);
         routes  = JSON.parse(response);
         FillSelectValues(selector,routes)
     }).
         fail(function () {
-            alert('failed to get routes')
+            alert('failed to get routes');
         });
 }
 function FillSelectValues(select_selector,routes){
@@ -34,7 +49,9 @@ function FillSelectValues(select_selector,routes){
     var selects = $(selector);
     selects.empty();
     for(const route of routes){
-        selects.append(`<option value='${route.route_id}'>${route.route_short_name} - ${route.route_long_name}</option>`)
+        var origin =  route.route_long_name.split('<->')[0];
+        var destination = route.route_long_name.split('<->')[1];
+        selects.append(`<option value='${route.route_id}' data-origin="${origin}" data-destination="${destination}">${route.route_short_name} - ${route.route_long_name}</option>`)
     }
     selects.selectpicker('refresh');
 
@@ -43,19 +60,23 @@ function FillSelectValues(select_selector,routes){
 
 
 async function initMap() {
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
   // The location of Uluru
-  const position = { lat: -25.344, lng: 131.031 };
+  const position = { lat: 32.11321, lng: 34.80502 };
   // Request needed libraries.
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
   // The map, centered at Uluru
+
   map = new Map(document.getElementById("google_map"), {
-    zoom: 4,
+    zoom: 15,
     center: position,
     mapId: "DEMO_MAP_ID",
   });
+  directionsRenderer.setMap(map);
 
   // The marker, positioned at Uluru
   const marker = new AdvancedMarkerElement({
@@ -63,4 +84,51 @@ async function initMap() {
     position: position,
     title: "Uluru",
   });
+}
+function calculateAndDisplayRoute(stops) {
+
+  const waypts = [];
+  const checkboxArray = document.getElementById("waypoints");
+
+  for (let i = 1; i < stops.length-1; i++) {
+      waypts.push({
+        location: stops[i],
+        stopover: true,
+      });
+  }
+
+  directionsService
+    .route({
+      origin: stops[0],
+      destination: stops.slice(-1)[0],
+      waypoints: waypts,
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.DRIVING,
+    })
+    .then((response) => {
+      directionsRenderer.setDirections(response);
+      const route = response.routes[0];
+      console.log(route);
+
+      const summaryPanel = document.getElementById("directions-panel");
+
+      summaryPanel.innerHTML = "";
+
+      // For each route, display summary information.
+      for (let i = 0; i < route.legs.length; i++) {
+        const routeSegment = i + 1;
+
+        summaryPanel.innerHTML +=
+          "<b>מסלול : " + routeSegment + "</b><br>";
+        summaryPanel.innerHTML += route.legs[i].start_address + " אל ";
+        summaryPanel.innerHTML += route.legs[i].end_address + "<br>";
+        summaryPanel.innerHTML += route.legs[i].distance.text + "<br><br>";
+      }
+    })
+    .catch((e) => {
+            window.alert("Directions request failed due to " + status);
+            console.log("Directions request failed due to " + status);
+            throw e;
+        }
+    );
 }
