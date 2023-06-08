@@ -23,7 +23,6 @@ myModal.addEventListener('shown.bs.modal', function () {
         bus_line_number_incident.innerText=bus_line_number
     else
         bus_line_number_incident.innerText="לא נמצא קו"
-  myInput.focus()
 })
 
     var myModal = document.getElementById('contact_modal')
@@ -34,7 +33,6 @@ myModal.addEventListener('shown.bs.modal', function () {
         route_long_name_incident.innerText=route_long_name
     else
         route_long_name_incident.innerText=""
-  myInput.focus()
 })
 
 });
